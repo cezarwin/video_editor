@@ -101,7 +101,7 @@ export default function VersionChangeLog() {
                     Features & Changes
                   </h4>
                   <ul className="mt-2 space-y-2 list-none">
-                    {version.changes.map((change, index) => (
+                    {version?.changes?.map((change, index) => (
                       <li key={index} className="flex items-start">
                         <span className="text-blue-300 mr-2">•</span>
                         <span className="text-zinc-100 text-xs md:text-sm">

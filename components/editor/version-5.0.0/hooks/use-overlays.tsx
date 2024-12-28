@@ -219,6 +219,17 @@ export const useOverlays = () => {
   }, []);
 
   /**
+   * Removes all overlays on a specified row
+   * @param row The row number to clear
+   */
+  const deleteOverlaysByRow = useCallback((row: number) => {
+    setOverlays((prevOverlays) =>
+      prevOverlays.filter((overlay) => overlay.row !== row)
+    );
+    setSelectedOverlayId(null);
+  }, []);
+
+  /**
    * Creates a copy of an existing overlay
    * The duplicated overlay is positioned immediately after the original in the timeline
    */
@@ -295,6 +306,7 @@ export const useOverlays = () => {
     changeOverlay,
     addOverlay,
     deleteOverlay,
+    deleteOverlaysByRow,
     duplicateOverlay,
     splitOverlay,
   };
