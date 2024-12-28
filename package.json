@@ -33,6 +33,7 @@
     "@remotion/bundler":  "4.0.243",
     "@remotion/cli":  "4.0.243",
     "@remotion/cloudrun":  "4.0.243",
+    "@remotion/google-fonts": "4.0.243",
     "@remotion/lambda":  "4.0.243",
     "@remotion/player":  "4.0.243",
     "@remotion/renderer":  "4.0.243",
