@@ -32,6 +32,7 @@ export const POST = executeApi<ProgressResponse, typeof ProgressRequest>(
     });
 
     if (renderProgress.fatalErrorEncountered) {
+      console.log("ERROR", renderProgress.errors[0].message);
       return {
         type: "error",
         message: renderProgress.errors[0].message,
@@ -39,6 +40,7 @@ export const POST = executeApi<ProgressResponse, typeof ProgressRequest>(
     }
 
     if (renderProgress.done) {
+      console.log("DONE");
       return {
         type: "done",
         url: renderProgress.outputFile as string,

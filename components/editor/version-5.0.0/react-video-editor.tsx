@@ -71,7 +71,7 @@ export default function ReactVideoEditor() {
     src: "",
   };
 
-  const { renderMedia, state } = useRendering("TestComponent", inputProps);
+  const { renderMedia, state } = useRendering("Overlay", inputProps);
 
   // Combine all editor context values
   const editorContextValue = {
