@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { formatDistanceToNow } from "date-fns";
+import("crypto");
 
 // Add this interface to track multiple renders
 interface RenderItem {
