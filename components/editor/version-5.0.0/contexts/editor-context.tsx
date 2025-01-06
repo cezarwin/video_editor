@@ -6,8 +6,8 @@ interface EditorContextProps {
   // Overlay Management
   overlays: Overlay[]; // Array of all overlays in the editor
   selectedOverlayId: number | null; // Currently selected overlay's ID
-  setSelectedOverlayId: (overlayId: number | null) => void; // Function to select an overlay
-  changeOverlay: (
+  setSelectedOverlayId: any; // Function to select an overlay
+   changeOverlay: (
     // Function to update overlay properties
     id: number,
     updater: Partial<Overlay> | ((overlay: Overlay) => Overlay)
