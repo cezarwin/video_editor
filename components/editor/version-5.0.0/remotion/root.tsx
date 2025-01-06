@@ -1,7 +1,4 @@
 import { Composition } from "remotion";
-import { z } from "zod";
-import { CompositionProps } from "../types";
-
 import { Main } from "./main";
 import { COMP_NAME, DURATION_IN_FRAMES, FPS } from "../constants";
 
