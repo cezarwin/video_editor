@@ -83,7 +83,7 @@ const SoundsPanel: React.FC = () => {
       content: sound.title,
       src: sound.file,
       from,
-      row,
+      row:3,
       // Layout properties
       left: 0,
       top: 0,

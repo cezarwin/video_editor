@@ -1,4 +1,4 @@
-import { LocalSound } from "../types";
+import { LocalShape } from "../types";
 
 export const localSounds: LocalSound[] = [
   {

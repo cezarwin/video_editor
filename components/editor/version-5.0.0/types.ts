@@ -43,6 +43,7 @@ export type TextOverlay = BaseOverlay & {
 export type ImageOverlay = BaseOverlay & {
   type: "image";
   content: string;
+  src: string;
   styles: BaseStyles & {
     objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down";
     objectPosition?: string;
@@ -68,6 +69,7 @@ export type ShapeOverlay = BaseOverlay & {
 // Clip overlay specific
 export type ClipOverlay = BaseOverlay & {
   type: "clip";
+  name: string;
   content: string; // Thumbnail URL for preview
   src: string; // Actual video source URL
   videoStartTime?: number; // Optional start time for the video
@@ -217,6 +219,13 @@ export interface LocalSound {
   title: string;
   artist: string;
   file: string;
+  duration: number;
+}
+
+export interface LocalShape {
+  id: string;
+  title: string;
+  src: string;
   duration: number;
 }
 

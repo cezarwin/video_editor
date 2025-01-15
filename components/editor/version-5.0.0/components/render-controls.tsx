@@ -7,7 +7,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { formatDistanceToNow } from "date-fns";
-import("crypto");
+import { randomUUID } from "crypto";
+import { v4 as uuidv4 } from 'uuid';
+
+function getUUID() {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  } else {
+    // Fallback: use uuidv4 or a custom solution
+    const { v4: uuidv4 } = require('uuid'); 
+    return uuidv4();
+  }
+}
 
 // Add this interface to track multiple renders
 interface RenderItem {
@@ -43,7 +54,7 @@ const RenderControls: React.FC<RenderControlsProps> = ({
         {
           url: state.url!,
           timestamp: new Date(),
-          id: crypto.randomUUID(),
+          id: getUUID(),
           status: "success",
         },
         ...prev,

@@ -36,7 +36,7 @@ export const LayerContent: React.FC<LayerContentProps> = ({ overlay }) => {
     case "image":
       return (
         <img
-          src={overlay.content}
+          src={overlay.src}
           alt="Layer content"
           style={{ ...commonStyle, objectFit: "contain" }}
         />

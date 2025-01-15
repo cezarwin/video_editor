@@ -6,7 +6,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { Trash2, Copy, Scissors, Type, Film, Music } from "lucide-react";
+import { Trash2, Copy, Scissors, Type, Film, Music, ImageIcon } from "lucide-react";
 
 /**
  * TimelineItem Component
@@ -144,6 +144,10 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
         return isHandle
           ? "bg-amber-800"
           : "bg-amber-500/80 hover:bg-amber-600 border-amber-400 text-white";
+      case "image":
+        return isHandle
+          ? "bg-red-800"
+          : "bg-red-500/80 hover:bg-red-600 border-red-400 text-white";
       default:
         return isHandle
           ? "bg-gray-500"
@@ -173,10 +177,12 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
           onMouseMove={handleMouseMove}
         >
           <div className="capitalize absolute inset-0 flex items-center justify-center text-xs truncate px-1 gap-1">
-            {item.type === "text" ? (
+          {item.type === "text" ? (
               <Type className="w-3 h-3 mr-1" />
             ) : item.type === "clip" ? (
               <Film className="w-3 h-3 mr-1" />
+            ): item.type === "image" ? (
+              <ImageIcon className="w-3 h-3 mr-1" />
             ) : item.type === "sound" ? (
               <Music className="w-3 h-3 mr-1" />
             ) : null}

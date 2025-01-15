@@ -6,6 +6,8 @@ interface PexelsVideo {
   id: number;
   width: number;
   height: number;
+  name: string;
+  duration: number;
   url: string; // URL to the video on Pexels website
   image: string; // Thumbnail image URL
   video_files: Array<{
@@ -35,7 +37,7 @@ export function usePexelsVideos() {
       // - size: size of videos to fetch
       // - orientation: aspect ratio of videos
       const response = await fetch(
-        `https://api.pexels.com/videos/search?query=${query}&per_page=20&size=medium&orientation=landscape`,
+        `https://api.pexels.com/videos/search?query=${query}&per_page=50&size=medium&orientation=landscape`,
         {
           headers: {
             Authorization: process.env.NEXT_PUBLIC_PEXELS_API_KEY || "",

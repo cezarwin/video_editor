@@ -1,32 +1,38 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { useEditorContext } from "../contexts/editor-context";
 import { useTimelinePositioning } from "../hooks/use-timeline-positioning";
-import { ClipOverlay } from "../types";
-import { usePexelsVideos } from "../hooks/use-pexels-video";
+import { usePexelsImages } from "../hooks/use-pexels-image"; // <-- Create this hook
 import { useAspectRatio } from "../hooks/use-aspect-ratio";
+import { ImageOverlay } from "../types";
 
-interface PexelsVideoFile {
-  quality: string;
-  link: string;
-  // Add other potential properties as needed
+/**
+ * This interface can match whatever data structure
+ * your `usePexelsImages` hook returns for each image.
+ */
+interface PexelsImageSrc {
+  original: string;
+  large?: string;
+  medium?: string;
+  small?: string;
+  // Add other potential image sizes as needed
 }
 
-interface PexelsVideo {
+interface PexelsImage {
   id: number | string;
-  image: string;
-  video_files: PexelsVideoFile[];
-  name:string;
-  duration: number;
-  // Add other potential properties as needed
+  alt?: string;
+  src: PexelsImageSrc;
+  // Add other potential properties as needed (e.g., photographer, width, height, etc.)
 }
 
-export const ClipsPanel: React.FC = () => {
+export const ImagesPanel: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { videos, isLoading, fetchVideos } = usePexelsVideos();
+  // Replace with your custom hook for images
+  const { images, isLoading, fetchImages } = usePexelsImages();
+  
   const { addOverlay, overlays, durationInFrames } = useEditorContext();
   const { findNextAvailablePosition } = useTimelinePositioning();
   const { getAspectRatioDimensions } = useAspectRatio();
@@ -34,49 +40,46 @@ export const ClipsPanel: React.FC = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      fetchVideos(searchQuery);
+      fetchImages(searchQuery);
     }
   };
 
-  const handleAddClip = (video: PexelsVideo) => {
+  /**
+   * Example: how to add an image as an overlay
+   */
+  const handleAddImage = (image: PexelsImage) => {
     const MAX_ROWS = 4;
     const { width, height } = getAspectRatioDimensions();
-
     const { from, row } = findNextAvailablePosition(
       overlays,
       MAX_ROWS,
       durationInFrames
     );
 
-    // Find the best quality video file (prioritize UHD > HD > SD)
-    const videoFile =
-      video.video_files.find(
-        (file: PexelsVideoFile) => file.quality === "uhd"
-      ) ||
-      video.video_files.find(
-        (file: PexelsVideoFile) => file.quality === "hd"
-      ) ||
-      video.video_files.find(
-        (file: PexelsVideoFile) => file.quality === "sd"
-      ) ||
-      video.video_files[0]; // Fallback to first file if no matches
+    // Choose which size you want to display. Fallback to `original` if unsure.
+    const imageUrl =
+      image.src.large ||
+      image.src.medium ||
+      image.src.small ||
+      image.src.original;
 
-    const newOverlay: ClipOverlay = {
+    const newOverlay: ImageOverlay = {
       left: 0,
       top: 0,
       width,
       height,
-      name:"CLIP NAME",
-      durationInFrames: video.duration * 30,
+      durationInFrames: 90,
       from,
       id: Date.now(),
       rotation: 0,
-      row:2,
+      row,
       isDragging: false,
-      type: "clip",
-      content: video.image,
-      src: videoFile?.link ?? "",
-      videoStartTime: 0,
+      // Set type to "image" (or whatever naming convention you wish)
+      type: "image",
+      content: image.alt || `Image ${image.id}`,
+      src: imageUrl,
+      // For images, you typically don’t have a "videoStartTime"
+      //videoStartTime: 0, // or you can omit it if not needed
       styles: {
         opacity: 1,
         zIndex: 0,
@@ -90,9 +93,10 @@ export const ClipsPanel: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-4 p-4 bg-gray-800/40 h-full">
+      {/* Search form */}
       <form onSubmit={handleSearch} className="flex gap-2">
         <Input
-          placeholder="Search videos..."
+          placeholder="Search images..."
           value={searchQuery}
           className="bg-gray-800 border-white/5 text-zinc-200 placeholder:text-gray-400 focus-visible:ring-blue-400"
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -107,6 +111,7 @@ export const ClipsPanel: React.FC = () => {
         </Button>
       </form>
 
+      {/* Image display grid */}
       <div className="grid grid-cols-2 gap-3">
         {isLoading
           ? Array.from({ length: 16 }).map((_, index) => (
@@ -115,16 +120,16 @@ export const ClipsPanel: React.FC = () => {
                 className="relative aspect-video bg-gray-800 animate-pulse rounded-sm"
               />
             ))
-          : videos.map((video) => (
+          : images.map((image) => (
               <button
-                key={video.id}
+                key={image.id}
                 className="relative aspect-video cursor-pointer border border-transparent hover:border-white rounded-md"
-                onClick={() => handleAddClip(video)}
+                onClick={() => handleAddImage(image)}
               >
-                <div className="relative">
+                <div className="relative w-full h-full">
                   <img
-                    src={video.image}
-                    alt={`Video thumbnail ${video.id}`}
+                    src={image.src.original}
+                    alt={image.alt || `Image ${image.id}`}
                     className="rounded-sm object-cover w-full h-full hover:opacity-60 transition-opacity duration-200"
                   />
                   <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity duration-200" />

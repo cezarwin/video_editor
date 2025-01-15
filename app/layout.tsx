@@ -6,8 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "React Video Editor | Pro",
-  description: "Purchased version of the React Video Editor.",
+  title: "Scouting4U Online Video Editor",
+  description: "Scouting4U Online Video Editor.",
 };
 
 export default function RootLayout({
