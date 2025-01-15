@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Film, Music, Type } from "lucide-react";
+import { Edit, Film, ImagesIcon, Music, PenLine, Type } from "lucide-react";
 import Image from "next/image";
 import {
   Sidebar,
@@ -19,12 +19,19 @@ import { useSidebar } from "../contexts/sidebar-context";
 import { ClipsPanel } from "./clips-panel";
 import { TextOverlaysPanel } from "./text-overlays-panel";
 import SoundsPanel from "./sounds-panel";
+import { Share1Icon } from "@radix-ui/react-icons";
 
 /** Navigation items configuration for the main sidebar */
 const data = {
   navMain: [
     {
-      title: "Clips",
+      title: "Edits",
+      url: "#",
+      icon: PenLine,
+      isActive: false,
+    },
+    {
+      title: "My Clips",
       url: "#",
       icon: Film,
       isActive: false,
@@ -37,9 +44,15 @@ const data = {
       isActive: true,
     },
     {
-      title: "Sounds",
+      title: "Images",
       url: "#",
-      icon: Music,
+      icon: ImagesIcon,
+      isActive: false,
+    },
+    {
+      title: "Sharing Management",
+      url: "#",
+      icon: Share1Icon,
       isActive: false,
     },
   ],
@@ -71,7 +84,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         return <TextOverlaysPanel />;
       case "Sounds":
         return <SoundsPanel />;
-      case "Clips":
+      case "My Clips":
         return <ClipsPanel />;
       default:
         return null;
@@ -140,7 +153,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter className="border-t border-white/5">{}</SidebarFooter>
+        <SidebarFooter className="border-t border-white/5">{ }</SidebarFooter>
       </Sidebar>
 
       {/* This is the second sidebar */}
