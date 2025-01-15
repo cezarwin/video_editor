@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useSidebar } from "../contexts/sidebar-context";
 import { ClipsPanel } from "./clips-panel";
+import { ImagesPanel } from "./images-panel";
 import { TextOverlaysPanel } from "./text-overlays-panel";
 import SoundsPanel from "./sounds-panel";
 import { Share1Icon } from "@radix-ui/react-icons";
@@ -86,6 +87,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         return <SoundsPanel />;
       case "My Clips":
         return <ClipsPanel />;
+      case "Images":
+        return <ImagesPanel />;
       default:
         return null;
     }
