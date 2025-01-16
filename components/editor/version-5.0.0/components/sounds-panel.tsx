@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import { localSounds } from "../templates/sound-templates";
 import { useTimelinePositioning } from "../hooks/use-timeline-positioning";
 import { useEditorContext } from "../contexts/editor-context";
-import { MAX_ROWS } from "../constants";
+import { useTimeline } from "../contexts/timeline-context";
 
 /**
  * SoundsPanel Component
@@ -23,6 +23,7 @@ const SoundsPanel: React.FC = () => {
   const audioRefs = useRef<{ [key: string]: HTMLAudioElement }>({});
   const { addOverlay, overlays, durationInFrames } = useEditorContext();
   const { findNextAvailablePosition } = useTimelinePositioning();
+  const { visibleRows } = useTimeline();
 
   /**
    * Initialize audio elements for each sound and handle cleanup
@@ -72,7 +73,7 @@ const SoundsPanel: React.FC = () => {
     // Find the next available position on the timeline
     const { from, row } = findNextAvailablePosition(
       overlays,
-      MAX_ROWS,
+      visibleRows,
       durationInFrames
     );
 
@@ -83,7 +84,7 @@ const SoundsPanel: React.FC = () => {
       content: sound.title,
       src: sound.file,
       from,
-      row:3,
+      row,
       // Layout properties
       left: 0,
       top: 0,

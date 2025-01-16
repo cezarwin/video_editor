@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react'
 import cookie from 'react-cookies'
 import { APIBASEURL } from '../../config.mjs'
 
-// const API_URL = APIBASEURL
-const API_URL = "http://localhost:3000";
+const API_URL = APIBASEURL
+// const API_URL = "http://localhost:3000";
 
 export default function useDeviceToken() {
     const [deviceToken, setDeviceToken] = useState('')

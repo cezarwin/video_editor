@@ -12,10 +12,12 @@ import { loginAsync } from '@/redux/features/authSlice'
 import { closeLoginPanel } from '@/redux/features/settingSlice'
 import useDeviceToken from '../../app/helpers/useDeviceToken'
 import { SECRET } from '../../config.mjs'
+import Image from 'next/image'
+import { AppDispatch } from '@/redux/store'
 
 const Login = () => {
     const router = useRouter()
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const deviceToken = useDeviceToken()
     const [cookies, setCookie] = useCookies(['data'])
     const { isLoggedIn, user: currentUser } = useSelector((state: any) => state.auth)
@@ -53,11 +55,11 @@ const Login = () => {
         setErrorMessage('')
 
         try {
-            const result = await dispatch(loginAsync({
+            await dispatch(loginAsync({
                 email,
                 password,
                 deviceToken
-            })).unwrap()
+            }))
 
             // Verify cookie was set
             const cookies = document.cookie.split(';')
@@ -79,10 +81,12 @@ const Login = () => {
     return (
         <div className="w-full">
             <Box p={3} mt={2}>
-                <img
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                <Image
+                    src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"
                     alt="profile-img"
-                    className="mx-auto w-24 h-24 rounded-full mb-4"
+                    width={96}
+                    height={96}
+                    className="mx-auto rounded-full mb-4"
                 />
                 <form onSubmit={handleLogin} className="space-y-4">
                     <div className="form-group">

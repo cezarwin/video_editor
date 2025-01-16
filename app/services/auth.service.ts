@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { APIBASEURL } from '../../config.mjs'
 
-const API_URL = "http://localhost:3000";
+const API_URL = APIBASEURL
+// const API_URL = "http://localhost:3000";
 
 class AuthService {
     async login(email: string, password: string, deviceToken: string) {

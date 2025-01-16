@@ -1,8 +1,7 @@
 import CryptoJS from 'crypto-js';
 import builder from 'xmlbuilder';
 import fileDownload from 'js-file-download';
-import { SECRET } from '../../config.mjs';
-import { DEMO } from './staticData';
+import { SECRET } from '@/config.mjs';
 
 interface Tag {
     video_url: string;
@@ -18,6 +17,21 @@ interface Tag {
     action_result_name?: string;
     action_type_name?: string;
     player_id?: number;
+}
+
+interface DemoType {
+    [key: string]: { success: string[] };
+    Shot: { success: string[] };
+    Pass: { success: string[] };
+    Cross: { success: string[] };
+    Dribble: { success: string[] };
+}
+
+const DEMO: DemoType = {
+    Shot: { success: ['Goal', 'On Target'] },
+    Pass: { success: ['Successful'] },
+    Cross: { success: ['Successful'] },
+    Dribble: { success: ['Successful'] }
 }
 
 export const createCommand = async (tagList: Tag[], name: string): Promise<void> => {
@@ -74,11 +88,11 @@ export const createCommand = async (tagList: Tag[], name: string): Promise<void>
 
 export function toHHMMSS(data: number | string): string {
     if (!data || data === '') return '00:00:00';
-    let sec_num = parseInt(String(data), 10);
-    if (sec_num < 0) sec_num = 0;
-    let hours = Math.floor(sec_num / 3600);
-    let minutes = Math.floor((sec_num - hours * 3600) / 60);
-    let seconds = sec_num - hours * 3600 - minutes * 60;
+    const sec_num = parseInt(String(data), 10);
+    if (sec_num < 0) return '00:00:00';
+    const hours = Math.floor(sec_num / 3600);
+    const minutes = Math.floor((sec_num - hours * 3600) / 60);
+    const seconds = sec_num - hours * 3600 - minutes * 60;
 
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
@@ -154,6 +168,7 @@ export function divideTags(tagList: Tag[]): ActionData {
     tagList.forEach((tag) => {
         const actionKey = tag.action_name;
         const typeKey = tag.action_type_name || '';
+        const resultName = tag.action_result_name || '';
 
         if (!actions[actionKey]) {
             actions[actionKey] = {};
@@ -162,7 +177,7 @@ export function divideTags(tagList: Tag[]): ActionData {
             actions[actionKey][typeKey] = { success: [], unsuccess: [] };
         }
 
-        if (DEMO[actionKey]?.success.includes(tag.action_result_name)) {
+        if (actionKey in DEMO && DEMO[actionKey].success.includes(resultName)) {
             actions[actionKey][typeKey].success.push(tag);
         } else {
             actions[actionKey][typeKey].unsuccess.push(tag);
@@ -177,7 +192,9 @@ export function filterSuccessTags(tagList: Tag[]): { [key: string]: Tag[][] } {
 
     tagList.forEach((tag) => {
         const actionKey = tag.action_name;
-        if (DEMO[actionKey]?.success.includes(tag.action_result_name)) {
+        const resultName = tag.action_result_name || '';
+
+        if (actionKey in DEMO && DEMO[actionKey].success.includes(resultName)) {
             if (!actions[actionKey]) {
                 actions[actionKey] = [[]];
             }
@@ -190,4 +207,27 @@ export function filterSuccessTags(tagList: Tag[]): { [key: string]: Tag[][] } {
 
 export function getPercent(value: number, max: number): number {
     return (value * 100) / max;
+}
+
+export function processActions(tags: Tag[]) {
+    const actions: ActionData = {
+        Shot: { highlight: { success: [], unsuccess: [] } },
+        Pass: { highlight: { success: [], unsuccess: [] } },
+        Cross: { highlight: { success: [], unsuccess: [] } },
+        Dribble: { highlight: { success: [], unsuccess: [] } }
+    };
+
+    tags.forEach(tag => {
+        const actionKey = tag.action_name;
+        const typeKey = 'highlight';
+        const resultName = tag.action_result_name || '';
+
+        if (actionKey in DEMO && DEMO[actionKey].success.includes(resultName)) {
+            actions[actionKey][typeKey].success.push(tag);
+        } else if (actionKey in actions) {
+            actions[actionKey][typeKey].unsuccess.push(tag);
+        }
+    });
+
+    return actions;
 }

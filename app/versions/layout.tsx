@@ -5,7 +5,7 @@ import React from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const lastRoute = pathname.split("/").pop() || "";
+  const lastRoute = pathname?.split("/").pop() || "";
 
   return (
     <>

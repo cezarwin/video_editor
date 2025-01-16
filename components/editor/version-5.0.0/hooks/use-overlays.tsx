@@ -10,52 +10,6 @@ export const useOverlays = () => {
   // Initial state with two default text overlays positioned at different locations
   const [overlays, setOverlays] = useState<Overlay[]>([
     {
-      left: 0,
-      top: 0,
-      width: 1280,
-      height: 720,
-      durationInFrames: 136,
-      from: 0,
-      id: 0,
-      rotation: 0,
-      row: 0,
-      isDragging: false,
-      type: "clip",
-      content:
-        "https://images.pexels.com/videos/5680034/3d-abstract-blue-bright-5680034.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=630&w=1200",
-      src: "https://videos.pexels.com/video-files/5680034/5680034-hd_1920_1080_24fps.mp4",
-      videoStartTime: 0,
-      styles: {
-        opacity: 1,
-        zIndex: 0,
-        transform: "none",
-        objectFit: "cover",
-      },
-    },
-    {
-      left: 0,
-      top: 0,
-      width: 1280,
-      height: 720,
-      durationInFrames: 187,
-      from: 129,
-      id: 1,
-      rotation: 0,
-      row: 1,
-      isDragging: false,
-      type: "clip",
-      content:
-        "https://images.pexels.com/videos/2022395/free-video-2022395.jpg?auto=compress&cs=tinysrgb&fit=crop&h=630&w=1200",
-      src: "https://videos.pexels.com/video-files/2022395/2022395-hd_1920_1080_30fps.mp4",
-      videoStartTime: 0,
-      styles: {
-        opacity: 1,
-        zIndex: 0,
-        transform: "none",
-        objectFit: "cover",
-      },
-    },
-    {
       left: 77,
       top: 83,
       width: 568,

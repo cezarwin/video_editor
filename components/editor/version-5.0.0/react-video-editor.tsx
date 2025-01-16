@@ -15,6 +15,7 @@ import { useVideoPlayer } from "./hooks/use-video-player";
 import { useTimelineClick } from "./hooks/use-timeline-click";
 import { useAspectRatio } from "./hooks/use-aspect-ratio";
 import { useCompositionDuration } from "./hooks/use-composition-duration";
+import { useCallback, useState } from "react";
 
 // Types
 import { Overlay } from "./types";
@@ -22,6 +23,8 @@ import { useRendering } from "./hooks/use-rendering";
 import { FPS } from "./constants";
 
 export default function ReactVideoEditor() {
+  const [totalDuration, setTotalDuration] = useState(1);
+
   // Overlay management hooks
   const {
     overlays,
@@ -109,6 +112,10 @@ export default function ReactVideoEditor() {
 
     deleteOverlaysByRow,
   };
+
+  const updateTotalDuration = useCallback((newDuration: number) => {
+    setTotalDuration(newDuration)
+  }, [])
 
   return (
     <SidebarProvider>
