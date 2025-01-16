@@ -11,7 +11,7 @@ interface BannerProps {
 }
 
 export default function Banner({ version }: BannerProps) {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   if (!isVisible) return null;
 
@@ -25,7 +25,7 @@ export default function Banner({ version }: BannerProps) {
         className="flex items-center text-white hover:text-blue-500 transition-colors"
       >
         <ArrowLeft size={20} className="mr-2" />
-        <span className="font-medium">Back to Versions</span>
+        {/* <span className="font-medium">Back to Versions</span> */}
       </Link>
 
       <div className="flex items-center ">
@@ -34,10 +34,17 @@ export default function Banner({ version }: BannerProps) {
             <Sparkles size={16} className="text-white" />
             <span className="sr-only">Sparkles icon</span>
           </span>
-          <span className="font-medium">
+          {/* <span className="font-medium">
             Version:{" "}
             <span className="inline font-bold text-blue-500  decoration-blue-500 decoration-solid">
               {version}
+            </span>{" "}
+            - We hope you enjoy using the Editor.
+          </span> */}
+          <span className="font-medium">
+            Scouting4U Video Editor{" "}
+            <span className="inline font-bold text-blue-500  decoration-blue-500 decoration-solid">
+              {/* {version} */}
             </span>{" "}
             - We hope you enjoy using the Editor.
           </span>
