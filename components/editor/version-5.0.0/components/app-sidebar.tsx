@@ -21,6 +21,7 @@ import { ImagesPanel } from "./images-panel";
 import { TextOverlaysPanel } from "./text-overlays-panel";
 import SoundsPanel from "./sounds-panel";
 import { Share1Icon } from "@radix-ui/react-icons";
+import { EditsPanel } from "./edits-panel";
 
 /** Navigation items configuration for the main sidebar */
 const data = {
@@ -81,6 +82,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
    */
   const renderActivePanel = () => {
     switch (activePanel) {
+      case "Edits":
+        return <EditsPanel />;
       case "Text Elements":
         return <TextOverlaysPanel />;
       case "Sounds":
